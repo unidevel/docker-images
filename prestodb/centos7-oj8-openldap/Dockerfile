@@ -21,6 +21,17 @@ RUN yum -y install openldap openldap-clients openldap-servers openssl && \
     # Configure openldap
     ldapmodify -Y EXTERNAL -H ldapi:/// -f /etc/openldap/setup/modify_server.ldif && \
     ldapmodify -Y EXTERNAL -H ldapi:/// -f /etc/openldap/setup/ldap_disable_bind_anon.ldif && \
+    ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/corba.ldif && \
+    ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif && \
+    ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/duaconf.ldif && \
+    ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/dyngroup.ldif && \
+    ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif && \
+    ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/java.ldif && \
+    ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/misc.ldif && \
+    ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif && \
+    ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/openldap.ldif && \
+    ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/ppolicy.ldif && \
+    ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/collective.ldif && \
     ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/setup/memberof.ldif && \
     ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/setup/refint.ldif && \
     ldapadd -f /etc/openldap/setup/createOU.ldif -D cn=admin,dc=presto,dc=testldap,dc=com -w admin && \
@@ -59,5 +70,7 @@ RUN yum -y install openldap openldap-clients openldap-servers openssl && \
         -file /etc/openldap/certs/caroot.cer && \
     # Cleanup
     yum -y clean all && rm -rf /tmp/* /var/tmp/*
+
+EXPOSE 389 636
 
 CMD supervisord -c /etc/supervisord.conf

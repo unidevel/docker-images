@@ -5,11 +5,6 @@ objectClass: olcModuleList
 olcModuleLoad: memberof.la
 olcModulePath: /usr/lib64/openldap
 
-dn: cn=manager,cn=schema,cn=config
-objectClass: olcSchemaConfig
-cn: manager
-olcAttributeTypes: ( 2.5.4.70 NAME 'manager' SUP distinguishedName )
-
 dn: olcOverlay={0}memberof,olcDatabase={2}hdb,cn=config
 objectClass: olcConfig
 objectClass: olcMemberOf
