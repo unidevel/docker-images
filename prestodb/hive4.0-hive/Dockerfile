@@ -17,6 +17,8 @@ ARG HADOOP_VERSION=3.4.1
 ARG HIVE_VERSION=4.0.1
 ARG MYSQL_CONNECTOR_VERSION=8.0.24
 ARG AWS_SDK_VERSION=1.12.782
+ARG HADOOP_BINARY_PATH=https://archive.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
+ARG HIVE_BINARY_PATH=https://archive.apache.org/dist/hive/hive-$HIVE_VERSION/apache-hive-$HIVE_VERSION-bin.tar.gz
 
 ENV HADOOP_HOME=/opt/hadoop
 ENV HIVE_HOME=/opt/hive
@@ -39,12 +41,10 @@ RUN yum install -y \
         cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys && \
         passwd --unlock root && \
     # install hadoop
-    HADOOP_BINARY_PATH=https://dlcdn.apache.org/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz && \
-        curl -o /tmp/hadoop.tar.gz --url $HADOOP_BINARY_PATH && \
+    curl -o /tmp/hadoop.tar.gz --url $HADOOP_BINARY_PATH && \
         tar xzf /tmp/hadoop.tar.gz --directory /opt && mv /opt/hadoop-${HADOOP_VERSION} /opt/hadoop && \
     # install hive
-    HIVE_BINARY_PATH=https://dlcdn.apache.org/hive/hive-$HIVE_VERSION/apache-hive-$HIVE_VERSION-bin.tar.gz && \
-        curl -o /tmp/hive.tar.gz --url $HIVE_BINARY_PATH && \
+    curl -o /tmp/hive.tar.gz --url $HIVE_BINARY_PATH && \
         tar xzf /tmp/hive.tar.gz --directory /opt && mv /opt/apache-hive-${HIVE_VERSION}-bin /opt/hive && \
     # install mysql connector and aws s3 sdk
     mkdir /opt/hive/auxlib && \
